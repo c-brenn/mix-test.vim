@@ -21,17 +21,6 @@ function! RunCurrentTestFile()
   endif
 endfunction
 
-function! RunNearestTest()
-  if s:InTestFile()
-    let s:last_test_file = s:CurrentFilePath()
-    let s:last_test_file_with_line = s:last_test_file . ":" . line(".")
-    let s:last_test = s:last_test_file_with_line
-    call s:RunTests(s:last_test_file_with_line)
-  elseif exists("s:last_test_file_with_line")
-    call s:RunTests(s:last_test_file_with_line)
-  endif
-endfunction
-
 function! RunLastTest()
   if exists("s:last_test")
     call s:RunTests(s:last_test)
