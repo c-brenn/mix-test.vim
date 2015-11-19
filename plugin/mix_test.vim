@@ -6,12 +6,12 @@ if !exists("g:mix_test_runner")
   let g:mix_test_runner = "os_x_terminal"
 endif
 
-function! RunAllTests()
+function! MixRunAllTests()
   let s:last_test = "test"
   call s:RunTests(s:last_test)
 endfunction
 
-function! RunCurrentTestFile()
+function! MixRunCurrentTestFile()
   if s:InTestFile()
     let s:last_test_file = s:CurrentFilePath()
     let s:last_test = s:last_test_file
@@ -21,13 +21,13 @@ function! RunCurrentTestFile()
   endif
 endfunction
 
-function! RunLastTest()
+function! MixRunLastTest()
   if exists("s:last_test")
     call s:RunTests(s:last_test)
   endif
 endfunction
 
-function! RunCurrentTest()
+function! MixRunCurrentTest()
   if s:InTestFile()
     let s:last_test_file = s:CurrentFilePath()
     let s:last_test_file_with_line = s:last_test_file . " --only line:" . line(".")
@@ -36,6 +36,15 @@ function! RunCurrentTest()
   elseif exists("s:last_test_file_with_line")
     call s:RunTests(s:last_test_file_with_line)
   endif
+endfunction
+
+function! InMixTestFile()
+  return s:InTestFile()
+endfunction
+
+function! InMixProject()
+  let mix_file = findfile('mix.exs', getcwd())
+  return !empty(mix_file)
 endfunction
 
 " === local functions ===
