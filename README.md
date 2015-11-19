@@ -16,15 +16,52 @@ Plug 'c-brenn/mix-test.vim'
 
 There are three functions available for use:
 
-* RunCurrentTestFile()
+* MixRunCurrentTestFile()
   * Runs all of the tests in the current file.
-* RunLastTest()
+* MixRunLastTest()
   * Re-runs the last test.
-* RunAllTests()
+* MixRunAllTests()
   * Runs all of the tests in the project -
   Vim's working directory must be the root of the project
+* MixRunCurrentTest()
+  * Runs the test under the cursor
 
 Run your tests quickly by mapping these commands.
+
+### Usage with other testing plugins
+
+This plugin was inspired by rspec.vim and I wanted the two to play nicely with other testing plugins.
+To that end I added two functions that determine whether you are in a Mix project
+or not so you can have one mapping for running your test/specs.
+
+For example, you can run your Mix tests or Rspec specs depending on the working directory
+or the current file like so:
+
+```vim
+map <Leader>t :call TestCurrentFile()<CR>
+map <Leader>a :call TestAll()<CR>
+
+
+function! TestCurrentFile()
+  if InMixTestFile()
+    call MixRunCurrentTestFile() " Test runner from this plugin
+  else
+    call RunCurrentSpecFile() " Test runner from rspec.vim
+  endif
+endfunction
+
+function! TestAll()
+  if InMixProject()
+    call MixRunAllTests() " Test runner from this plugin
+  else
+    call RunAllSpecs() " Test runner from rspec.vim
+  endif
+endfunction
+```
+
+You should use InMixTestFile() before running all the tests in the current file or for
+running the test under the cursor and use InMixProject() before running all the test in
+a project or re-running the last test (as it can be rerun from anywhere).
 
 ### Custom Command
 
