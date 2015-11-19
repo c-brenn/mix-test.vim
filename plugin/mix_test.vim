@@ -27,6 +27,17 @@ function! RunLastTest()
   endif
 endfunction
 
+function! RunCurrentTest()
+  if s:InTestFile()
+    let s:last_test_file = s:CurrentFilePath()
+    let s:last_test_file_with_line = s:last_test_file . " --only line:" . line(".")
+    let s:last_test = s:last_test_file_with_line
+    call s:RunTests(s:last_test_file_with_line)
+  elseif exists("s:last_test_file_with_line")
+    call s:RunTests(s:last_test_file_with_line)
+  endif
+endfunction
+
 " === local functions ===
 
 function! s:RunTests(test_location)
