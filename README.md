@@ -44,3 +44,7 @@ let g:mix_test_runner = "os_x_iterm2"
 ```
 
 These runners are really only needed for MacVim running in a GUI.
+
+## License
+
+This is free software, see the LICENSE file.
